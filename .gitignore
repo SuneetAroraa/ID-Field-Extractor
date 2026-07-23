@@ -1,0 +1,7 @@
+__pycache__/          
+.DS_Store               
+01_alb_id/                         
+venv/                                        
+yolov8n.pt           
+Cropped_output.jpg      
+Testimage.jpg
