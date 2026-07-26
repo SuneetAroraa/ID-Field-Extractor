@@ -5,3 +5,5 @@ venv/
 yolov8n.pt           
 Cropped_output.jpg      
 Testimage.jpg
+Cropped_output_CV.jpg
+Cropped_output_YOLO.jpg

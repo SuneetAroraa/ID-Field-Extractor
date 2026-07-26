@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 
 def apply_adaptive_threshold(img):
+    if len(img.shape) == 3: 
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     clahe = cv2.createCLAHE(clipLimit=2.0,tileGridSize=(8,8))
     img = clahe.apply(img)
     img = cv2.GaussianBlur(img,(5,5),0)
@@ -83,34 +85,3 @@ def contour_approximation(image):
             break
 
     return doc_contour
-
-
-def main(path):
-    image = cv2.imread(path,cv2.IMREAD_GRAYSCALE)
-    cv2.imshow("Input Image",image)
-
-    doc_contour = contour_approximation(image)
-
-    if doc_contour is not None:
-        img_cpy = cv2.cvtColor(image,cv2.COLOR_GRAY2BGR)
-        cv2.drawContours(img_cpy,[doc_contour],-1,(0,0,255),3)
-        #cv2.imshow("Detected",img_cpy)
-
-        pers_transform = perspective_transform(image,doc_contour)
-        #cv2.imshow("After Perspective Transform",pers_transform)
-
-        upscaled = cv2.resize(pers_transform, None, fx=2.0, fy=2.0, interpolation=cv2.INTER_CUBIC)
-        angle = detect_skew(upscaled)
-
-        #adaptive_thresh = apply_adaptive_threshold(upscaled)
-        #cv2.imshow("After Threshold",adaptive_thresh)
-
-        skew_corrected = skew_correction(upscaled,angle)
-        #cv2.imshow("After Skew Correction", skew_corrected)
-        #cv2.waitKey(0)
-        return skew_corrected
-    else:
-        print("Not Detected")
-
-if __name__ == "__main__":
-    main()

@@ -1,6 +1,5 @@
-from ultralytics import YOLO
+from clean import clean_image, detectwarp_image
 import cv2
-from clean import contour_based_crop
 
 def detect_and_crop(model,image_path):
     results = model(image_path)
@@ -20,19 +19,12 @@ def detect_and_crop(model,image_path):
     if best_box is not None:
             x1, y1, x2, y2 = best_box
             cropped = image[int(y1):int(y2), int(x1):int(x2)]
-            return cropped
+            upscaled = cv2.resize(cropped, None, fx=2.0, fy=2.0, interpolation=cv2.INTER_CUBIC)
+            return clean_image(upscaled) 
     
-    return contour_based_crop(image_path)
+    warped = detectwarp_image(image_path)
+    if warped is not None:
+        return clean_image(warped)     
+ 
+    return None
 
-
-def main():
-    model = YOLO("yolov8n.pt")  # downloads automatically on first run
-    image_path = "/Users/suneetarora/Desktop/ ID Field Extractor/01_alb_id/images/HA/HA01_04.tif"
-    cropped = detect_and_crop(model,image_path)
-    if cropped is not None:
-        cv2.imwrite("Cropped_output.jpg", cropped)
-    else:
-        print("Detection Failed")
-
-if __name__ == "__main__":
-    main()
