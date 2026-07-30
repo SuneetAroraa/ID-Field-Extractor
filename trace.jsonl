@@ -1,0 +1,3 @@
+{"timestamp": "2026-07-30T11:51:39.642773+00:00", "stage": "detection", "method": "yolo", "box_found": true, "confidence": 0.8270761370658875, "box": [16.6204833984375, 555.635009765625, 1064.6705322265625, 1337.9132080078125]}
+{"timestamp": "2026-07-30T11:52:34.358412+00:00", "stage": "ocr", "num_text_blocks": 57, "filtered_below_threshold": 28, "confidence_avg": 0.48560615465000617}
+{"timestamp": "2026-07-30T11:52:34.361123+00:00", "stage": "parse", "fields_found": ["name", "id_number", "date_of_birth"], "confidence_scores": {"id_number": 0.8303866299364234, "date_of_birth": 0.8331930343477041, "name": 0.9171351851037557}}

@@ -1,6 +1,7 @@
 import re
 from typing import Optional, List
 from pydantic import BaseModel, Field
+from trace_logging import log
 
 class OCR_Output(BaseModel):
     name: Optional[str] = None
@@ -10,9 +11,9 @@ class OCR_Output(BaseModel):
     confidence_scores: dict[str, float] = Field(default_factory=dict)
     raw_text: str = ""
 
-def extract(results):
+def extract(results,image_height,trace_path = "trace.jsonl"):
     date_pattern = r"\d{2}-\d{2}-\d{4}"
-    id_pattern = r"[A-Z]\d{9}"
+    id_pattern = r"[A-Z][A-Z0-9]{7,10}"
     name_pattern = r"^[A-Z][a-z]+$"
 
     dates_found = []
@@ -30,18 +31,22 @@ def extract(results):
         "raw_text": ""
     }
 
-    for i, (bbox, text, conf) in enumerate(results):
+    for (bbox, text, conf) in results:
         text = text.strip()
         raw_text_parts.append(text)
         if conf < 0.4:
             continue
-        if re.fullmatch(date_pattern,text):
-            dates_found.append((text,conf))
-        elif re.fullmatch(id_pattern,text):
+        top_y = bbox[0][1]  
+        card_height = image_height
+        if top_y > card_height * 0.5:
+            continue  
+        if re.fullmatch(date_pattern, text):
+            dates_found.append((text, conf))
+        elif re.fullmatch(id_pattern, text):
             id_number = text
             id_conf = conf
-        elif re.fullmatch(name_pattern,text):
-            names_found.append((text,conf)) 
+        elif top_y <= image_height * 0.5 and re.fullmatch(name_pattern, text):
+            names_found.append((text, conf))
 
     fields["raw_text"] = " ".join(raw_text_parts)     
     
@@ -62,5 +67,10 @@ def extract(results):
         fields["name"] = " ".join(n for n, c in names_found)
         avg_conf = sum(c for n, c in names_found) / len(names_found)
         fields["confidence_scores"]["name"] = avg_conf
+
+    log(trace_path, "parse", {
+        "fields_found": [k for k, v in fields.items() if k not in ("confidence_scores", "raw_text") and v is not None],
+        "confidence_scores": fields["confidence_scores"]
+    })
 
     return OCR_Output(**fields)
