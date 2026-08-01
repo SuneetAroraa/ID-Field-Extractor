@@ -1,3 +1,9 @@
 {"timestamp": "2026-07-30T11:51:39.642773+00:00", "stage": "detection", "method": "yolo", "box_found": true, "confidence": 0.8270761370658875, "box": [16.6204833984375, 555.635009765625, 1064.6705322265625, 1337.9132080078125]}
 {"timestamp": "2026-07-30T11:52:34.358412+00:00", "stage": "ocr", "num_text_blocks": 57, "filtered_below_threshold": 28, "confidence_avg": 0.48560615465000617}
 {"timestamp": "2026-07-30T11:52:34.361123+00:00", "stage": "parse", "fields_found": ["name", "id_number", "date_of_birth"], "confidence_scores": {"id_number": 0.8303866299364234, "date_of_birth": 0.8331930343477041, "name": 0.9171351851037557}}
+{"timestamp": "2026-07-31T09:46:53.587095+00:00", "stage": "detection", "method": "yolo", "box_found": true, "confidence": 0.8270761370658875, "box": [16.6204833984375, 555.635009765625, 1064.6705322265625, 1337.9132080078125]}
+{"timestamp": "2026-07-31T09:47:50.835536+00:00", "stage": "ocr", "num_text_blocks": 57, "filtered_below_threshold": 28, "confidence_avg": 0.48560615465000617}
+{"timestamp": "2026-07-31T09:47:50.838834+00:00", "stage": "parse", "fields_found": ["name", "id_number", "date_of_birth"], "confidence_scores": {"id_number": 0.8303866299364234, "date_of_birth": 0.8331930343477041, "name": 0.9171351851037557}}
+{"timestamp": "2026-08-01T07:02:32.258270+00:00", "stage": "detection", "method": "yolo", "box_found": true, "confidence": 0.8274782299995422, "box": [20.5909423828125, 556.9896850585938, 1063.9586181640625, 1341.747314453125]}
+{"timestamp": "2026-08-01T07:03:29.670583+00:00", "stage": "ocr", "num_text_blocks": 56, "filtered_below_threshold": 29, "confidence_avg": 0.479972641903413}
+{"timestamp": "2026-08-01T07:03:29.742869+00:00", "stage": "parse", "fields_found": ["name", "id_number", "date_of_birth"], "confidence_scores": {"id_number": 0.9179973499257096, "date_of_birth": 0.9087987245870232, "name": 0.9061119697090311}}

@@ -6,8 +6,7 @@ from ultralytics import YOLO
 def main():
     reader = get_reader()
     model = YOLO("yolov8n.pt")
-    image_path = "/Users/suneetarora/Desktop/ ID Field Extractor/01_alb_id/images/HA/HA01_03.jpg"
-    #image_path = input('Enter Image Path: ')
+    image_path = input('Enter Image Path: ')
     cropped = detect_and_crop(model,image_path)
     if cropped is None:
          print("Detection Failed")

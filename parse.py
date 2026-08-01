@@ -36,10 +36,10 @@ def extract(results,image_height,trace_path = "trace.jsonl"):
         raw_text_parts.append(text)
         if conf < 0.4:
             continue
+
         top_y = bbox[0][1]  
+        
         card_height = image_height
-        if top_y > card_height * 0.5:
-            continue  
         if re.fullmatch(date_pattern, text):
             dates_found.append((text, conf))
         elif re.fullmatch(id_pattern, text):

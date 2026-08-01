@@ -26,5 +26,9 @@ def ocr(image, reader,trace_path = "trace.jsonl"):
 if __name__ == "__main__":
     reader = get_reader()
     image_path = input("Enter image path: ")
-    fields = ocr(image_path, reader)
-    print(fields)
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    if image is None:
+        print("Could not load image")
+    else:
+        fields = ocr(image, reader)
+        print(fields)
