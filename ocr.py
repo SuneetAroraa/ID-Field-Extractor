@@ -7,7 +7,16 @@ def get_reader():
     return easyocr.Reader(["en"])
  
 def ocr(image, reader,trace_path = "trace.jsonl"):
-    results = reader.readtext(image)
+    results = reader.readtext(
+    image,
+    detail=1,
+    paragraph=False,
+    contrast_ths=0.1,
+    adjust_contrast=0.7,
+    mag_ratio=1.5,       
+    text_threshold=0.6,
+    low_text=0.3
+)
 
     confidences = [conf for (_, _, conf) in results]
     filtered_count = sum(1 for c in confidences if c < 0.4)
