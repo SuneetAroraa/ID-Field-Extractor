@@ -12,7 +12,7 @@ Each stage is isolated so a failure in one (e.g. no card detected, OCR returns n
 
 **Detection (`detection.py`)** — A YOLOv8 model (`yolov8n.pt`) is run on the input image and the highest-confidence box is taken as the card region. If YOLO finds nothing, `detectwarp_image()` in `clean.py` is used as a backup: it contour-detects the card edges and applies a perspective warp to extract it. YOLO is the primary path; the contour-based warp only runs when YOLO fails to find a box.
 
-**Clean / Deskew (`clean.py`, `DocScanner_Deskew.py`)** — The cropped card is deskewed and thresholded via `clean_image()`, which detects the skew angle, corrects it, and applies adaptive thresholding. `DocScanner_Deskew.py` holds the underlying contour approximation, perspective transform, and skew-correction functions used by both the detection fallback and the cleaning step.
+**Clean / Deskew (`clean.py`, `DocScanner_Deskew.py`)** — The cropped card is deskewed and thresholded via `clean_image()`, which detects the skew angle, corrects it, and applies adaptive thresholding. `DocScanner_Deskew.py` carries over the contour detection, perspective transform, and skew-correction logic from an earlier standalone project — [Document-Scanner-Deskew-Tool](https://github.com/SuneetAroraa/Document-Scanner-Deskew-Tool) — reused here for both the detection fallback and the cleaning step.
 
 **OCR (`ocr.py`)** — EasyOCR reads the cleaned crop and returns text boxes with confidence scores. Per-box confidence is where gating happens: boxes are logged with an average confidence and a count of how many fell below the threshold, and low-confidence boxes are dropped before parsing ever sees them.
 
@@ -90,6 +90,10 @@ uvicorn app:app --reload
 - Ultralytics (YOLOv8)
 - Pydantic
 - FastAPI (for the API endpoint)
+
+## Related Projects
+
+- [Document-Scanner-Deskew-Tool](https://github.com/SuneetAroraa/Document-Scanner-Deskew-Tool) — standalone contour detection, perspective transform, and deskew pipeline that `DocScanner_Deskew.py` in this repo is built on.
 
 ## Status
 
